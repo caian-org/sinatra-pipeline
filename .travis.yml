@@ -11,17 +11,12 @@ before_install:
   - gem --version
 
 stages:
-  - install
   - test
   - build
   - publish
 
 jobs:
   include:
-    - stage: install
-      name: "Install dependencies"
-      script: make install
-
     - stage: test
       name: "Run unit tests"
       script: make test
@@ -34,4 +29,5 @@ jobs:
     - stage: publish
       name: "Publish the application image to ECR"
       script: exit 0
-      if: branch = master
+      if: branch = master AND tag IS present
+
