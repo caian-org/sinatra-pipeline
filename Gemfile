@@ -11,3 +11,5 @@ gem "sinatra", "~> 2.0"
 gem "rack-test", "~> 1.1"
 
 gem "rake", "~> 12.3"
+
+gem "pg", "~> 1.1"
