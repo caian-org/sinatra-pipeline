@@ -14,16 +14,24 @@ jobs:
     - stage: test
       name: "Run unit tests"
       script:
-        - make install
-        - make test
+        - gem install bundler
+        - bundle install
+        - ruby ./test/app_test.rb
 
     - stage: build
       name: "Build the docker image"
-      script: make build
+      script:
+        - docker --version
+        - docker build -t $APPLICATION_NAME .
       if: branch = master
 
     - stage: publish
       name: "Publish the application image to ECR"
-      script: exit 0
+      script:
+        - pip3 install awscli --user
+        - export PATH=$PATH:$HOME/.local/bin
+        - export AWS_ACCOUNT_ID="$( aws sts get-caller-identity --output text --query 'Account' )"
+        - eval $(aws ecr get-login --region us-east-1)
+        - docker tag $APPLICATION_NAME:$TRAVIS_TAG 123456789012.dkr.ecr.us-east-1.amazonaws.com/$APPLICATION_NAME:$TRAVIS_TAG
       if: branch = master AND tag IS present
 
