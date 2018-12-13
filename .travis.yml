@@ -11,12 +11,17 @@ before_install:
   - gem --version
 
 stages:
+  - install
   - test
   - build
   - publish
 
 jobs:
   include:
+    - stage: install
+      name: "Install dependencies"
+      script: make install
+
     - stage: test
       name: "Run unit tests"
       script: make test
