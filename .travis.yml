@@ -5,20 +5,17 @@ services:
   - docker
 
 stages:
-  - install
   - test
   - build
   - publish
 
 jobs:
   include:
-    - stage: install
-      name: "Install dependencies"
-      script: make install
-
     - stage: test
       name: "Run unit tests"
-      script: make test
+      script:
+        - make install
+        - make test
 
     - stage: build
       name: "Build the docker image"
