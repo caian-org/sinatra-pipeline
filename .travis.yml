@@ -1,14 +1,8 @@
-sudo: false
-language: ruby
+sudo: required
+language: generic
 
-install: make
-
-rvm:
-  - "2.5"
-
-before_install:
-  - gem update --system
-  - gem --version
+services:
+  - docker
 
 stages:
   - install
@@ -28,7 +22,7 @@ jobs:
 
     - stage: build
       name: "Build the docker image"
-      script: exit 0
+      script: make build
       if: branch = master
 
     - stage: publish
