@@ -18,10 +18,20 @@ stages:
 
 jobs:
   include:
-    - stage: "install"
+    - stage: install
       name: "Install dependencies"
       script: make install
 
-    - stage: "test"
+    - stage: test
       name: "Run unit tests"
       script: make test
+
+    - stage: build
+      name: "Build the docker image"
+      script: exit 0
+      if: branch = master
+
+    - stage: publish
+      name: "Publish the application image to ECR"
+      script: exit 0
+      if: branch = master
