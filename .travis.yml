@@ -3,6 +3,7 @@ language: generic
 
 services:
   - docker
+  - postgresql
 
 stages:
   - test
@@ -13,10 +14,17 @@ jobs:
   include:
     - stage: test
       name: "Run unit tests"
+      before_script:
+        - psql -U postgres -f test/create.sql
       script:
         - gem install bundler
         - bundle install
         - ruby ./test/app_test.rb
+      env:
+        - PG_HOST=localhost
+        - PG_PORT=5433
+        - PG_USER=postgres
+        - PG_DBNM=users
 
     - stage: build
       name: "Build the docker image"
