@@ -25,11 +25,21 @@ class MyAppTest < Test::Unit::TestCase
       :age => 86
     }
     post '/users', payload.to_json
+
+    resp = JSON.parse(last_response.body)
+    code = resp[:code]
+
     assert last_response.ok?
+    assert_equal 201, code
   end
 
   def test_get_user
     get '/users/1'
+
+    resp = JSON.parse(last_response.body)
+    code = resp[:code]
+
     assert last_response.ok?
+    assert_equal 200, code
   end
 end
