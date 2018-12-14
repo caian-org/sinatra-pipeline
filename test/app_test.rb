@@ -1,3 +1,4 @@
+require 'json'
 require 'test/unit'
 require 'rack/test'
 require_relative '../src/app'
@@ -23,7 +24,7 @@ class MyAppTest < Test::Unit::TestCase
       :surname => 'Williams',
       :age => 86
     }
-    post '/users', payload
+    post '/users', payload.to_json
     assert last_response.ok?
   end
 
