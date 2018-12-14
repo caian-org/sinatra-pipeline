@@ -1,6 +1,6 @@
-require_relative '../src/app'
 require 'test/unit'
 require 'rack/test'
+require_relative '../src/app'
 
 set :environment, :test
 
@@ -17,13 +17,18 @@ class MyAppTest < Test::Unit::TestCase
     assert_equal 'Hello World!', last_response.body
   end
 
-  def test_get_user
-    get '/users/1'
+  def test_post_user
+    payload = {
+      :name => 'John',
+      :surname => 'Williams',
+      :age => 86
+    }
+    post '/users', payload
     assert last_response.ok?
   end
 
-  def test_post_user
-    post '/users'
+  def test_get_user
+    get '/users/1'
     assert last_response.ok?
   end
 end
