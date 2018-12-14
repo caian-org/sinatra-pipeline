@@ -43,17 +43,24 @@ class MyPostgres
 end
 
 
-
 def pgconn
-  MyPostgres.new(
-    ENV['PG_HOST'],
-    ENV['PG_PORT'],
-    ENV['PG_USER'],
-    ENV['PG_PASS'],
-    ENV['PG_DBNM']
-  )
+  host = (ENV['PG_HOST'] or '')
+  port = (ENV['PG_PORT'] or '')
+  user = (ENV['PG_USER'] or '')
+  pass = (ENV['PG_PASS'] or '')
+  dbnm = (ENV['PG_DBNM'] or '')
+
+  MyPostgres.new(host, port, user, pass, dbnm)
 end
 
+
+def make_res(result, code)
+  {
+    :code    => code,
+    :result => result,
+    :status  => code < 400 ? 'success' : 'error'
+  }
+end
 
 
 set :bind, '0.0.0.0'
@@ -65,12 +72,54 @@ end
 
 get '/users/:id' do |id|
   content_type :json
-  status 200
-  body '{}'
+
+  response = nil
+  begin
+    pg = pgconn
+    result, code = pg.query_user(id)
+
+    response = make_res(result, code)
+
+  rescue StandardError => e
+    res = make_res("something went wrong: #{e.message}", 500)
+
+  else
+    pg.close
+
+  end
+
+  status code
+  body response.to_json
 end
 
 post '/users' do
   content_type :json
-  status 200
-  body '{}'
+
+  # fetches the POST payload content
+  payload = JSON.parse(request.body.read)
+  name    = payload['name']
+  surname = payload['surname']
+  age     = payload['age']
+
+  res = nil
+  begin
+    # connects to the postgres dabatase
+    pg = postgres_connection
+
+    # tries to insert the user into the database
+    result, code = pg.insert_user(name, surname, age)
+
+    res = make_res(result, code)
+
+  rescue StandardError => e
+    res = make_res("something went wrong: #{e.message}", 500)
+
+  else
+    pg.close
+
+  end
+
+  # makes the response
+  status code
+  body res.to_json
 end
