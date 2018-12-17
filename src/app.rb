@@ -73,12 +73,12 @@ end
 get '/users/:id' do |id|
   content_type :json
 
-  response = nil
+  res = nil
   begin
     pg = pgconn
     result, code = pg.query_user(id)
 
-    response = make_res(result, code)
+    res = make_res(result, code)
 
   rescue StandardError => e
     res = make_res("something went wrong: #{e.message}", 500)
@@ -89,7 +89,7 @@ get '/users/:id' do |id|
   end
 
   status code
-  body response.to_json
+  body res.to_json
 end
 
 post '/users' do
@@ -104,7 +104,7 @@ post '/users' do
   res = nil
   begin
     # connects to the postgres dabatase
-    pg = postgres_connection
+    pg = pgconn
 
     # tries to insert the user into the database
     result, code = pg.insert_user(name, surname, age)
