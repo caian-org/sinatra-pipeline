@@ -12,34 +12,28 @@ class MyAppTest < Test::Unit::TestCase
     Sinatra::Application
   end
 
-  def test_hello_world
+  def test_1_hello_world
     get '/'
-    assert last_response.ok?
     assert_equal 'Hello World!', last_response.body
   end
 
-  def test_post_user
+  def test_2_post_user
     payload = {
-      :name => 'John',
-      :surname => 'Williams',
-      :age => 86
+      'name'    => 'John',
+      'surname' => 'Williams',
+      'age'     => 86
     }
-    post '/users', payload.to_json
 
-    resp = JSON.parse(last_response.body)
-    code = resp[:code]
+    post '/users', payload.to_json, 'CONTENT_TYPE' => 'application/json'
 
-    assert last_response.ok?
-    assert_equal 201, code
+    response = JSON.parse(last_response.body)
+    assert_equal 201, response['code']
   end
 
-  def test_get_user
+  def test_3_get_user
     get '/users/1'
 
-    resp = JSON.parse(last_response.body)
-    code = resp[:code]
-
-    assert last_response.ok?
-    assert_equal 200, code
+    response = JSON.parse(last_response.body)
+    assert_equal 200, response['code']
   end
 end
