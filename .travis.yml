@@ -23,9 +23,9 @@ jobs:
         - ruby ./test/app_test.rb
       env:
         - PG_HOST=localhost
-        - PG_PORT=5433
+        - PG_PORT=5432
         - PG_USER=postgres
-        - PG_DBNM=users
+        - PG_DBNM=sinatra
 
     - stage: build
       name: "Build the docker image"
