@@ -39,7 +39,7 @@ jobs:
         - pip3 install awscli --user
         - export PATH=$PATH:$HOME/.local/bin
         - export AWS_ACCOUNT_ID="$( aws sts get-caller-identity --output text --query 'Account' )"
-        - eval $(aws ecr get-login --region us-east-1)
-        - docker tag $APPLICATION_NAME:$TRAVIS_TAG 123456789012.dkr.ecr.us-east-1.amazonaws.com/$APPLICATION_NAME:$TRAVIS_TAG
+        - eval $(aws ecr get-login --no-include-email --region us-east-1)
+        - docker tag $APPLICATION_NAME:$TRAVIS_TAG $ECR_REPOSITORY_URL/$APPLICATION_NAME:$TRAVIS_TAG
+        - docker push $ECR_REPOSITORY_URL/$APPLICATION_NAME:$TRAVIS_TAG
       if: branch = master AND tag IS present
-
