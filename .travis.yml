@@ -36,7 +36,7 @@ jobs:
     - stage: publish
       name: "Publish the application image to ECR"
       script:
-        - pip3 install awscli --user
+        - pip install awscli --user
         - export PATH=$PATH:$HOME/.local/bin
         - eval $(aws ecr get-login --no-include-email --region us-east-1)
         - docker tag $APPLICATION_NAME:$TRAVIS_TAG $ECR_REPOSITORY_URL/$APPLICATION_NAME:$TRAVIS_TAG
