@@ -39,6 +39,7 @@ jobs:
         - pip install awscli --user
         - export PATH=$PATH:$HOME/.local/bin
         - eval $(aws ecr get-login --no-include-email --region us-east-1)
+        - docker build -t $APPLICATION_NAME .
         - docker tag $APPLICATION_NAME:$TRAVIS_TAG $ECR_REPOSITORY_URL/$APPLICATION_NAME:$TRAVIS_TAG
         - docker push $ECR_REPOSITORY_URL/$APPLICATION_NAME:$TRAVIS_TAG
       if: tag IS present
