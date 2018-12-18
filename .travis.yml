@@ -31,7 +31,7 @@ jobs:
       name: "Build the docker image"
       script:
         - docker build -t $APPLICATION_NAME .
-      if: branch = master
+      if: branch = master OR tag is present
 
     - stage: publish
       name: "Publish the application image to ECR"
@@ -42,4 +42,4 @@ jobs:
         - eval $(aws ecr get-login --no-include-email --region us-east-1)
         - docker tag $APPLICATION_NAME:$TRAVIS_TAG $ECR_REPOSITORY_URL/$APPLICATION_NAME:$TRAVIS_TAG
         - docker push $ECR_REPOSITORY_URL/$APPLICATION_NAME:$TRAVIS_TAG
-      if: branch = master AND tag IS present
+      if: tag IS present
