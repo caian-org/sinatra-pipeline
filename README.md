@@ -152,7 +152,7 @@ The application exposes three routes:
     payload should contains the keys `name` (string), `surname` (string) and
     `age` (int).
 
-    E.g. (using the [http]() tool):
+    E.g. (using the [http](https://httpie.org) tool):
 
     - `http POST :4567 name="John" surname="Williams" age=86`
 
