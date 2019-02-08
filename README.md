@@ -19,7 +19,7 @@ CI/CD pipeline using Travis-CI.
     - [Database Schema](#database-schema)
     - [API](#api)
     - [Tests](#tests)
-- [The Pipeline](the-pipeline)
+- [The Pipeline](#the-pipeline)
     - [Steps](#steps)
         - [Test](#test)
         - [Build](#build)
@@ -86,6 +86,13 @@ To do it directly. In this case, the service port will be binded to `4567`.
 ## Environment
 
 The following environment variables are used by the service:
+
+| Variable  | Description           |
+|-----------|-----------------------|
+| `PG_HOST` | The database hostname |
+| `PG_PORT` | The port number       |
+| `PG_USER` | The database username |
+| `PG_DBNM` | The username password |
 
 
 ## Database Schema
