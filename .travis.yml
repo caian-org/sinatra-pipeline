@@ -18,9 +18,8 @@ jobs:
         - psql -c 'CREATE DATABASE sinatra;' -U postgres
         - psql -c 'CREATE TABLE users (id SERIAL, name VARCHAR(255), surname VARCHAR(255), age INT);' -U postgres -d sinatra
       script:
-        - gem install bundler
-        - bundle install
-        - ruby ./test/app_test.rb
+        - make install
+        - make test
       env:
         - PG_HOST=localhost
         - PG_PORT=5432
