@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/caianrais/sinatra-pipeline.svg?branch=master)](https://travis-ci.org/caianrais/sinatra-pipeline)
+[![Build Status](https://travis-ci.org/caiertl/travis-pipeline-sample.svg?branch=master)](https://travis-ci.org/caiertl/travis-pipeline-sample)
 
 # Sample: Ruby CI/CD pipeline with Travis-CI
 
-This repository contains a simple web application created with Sinatra, the
-unit tests and a CI/CD pipeline using Travis-CI.
+This repository contains a simple Sinatra web application, the unit tests and a
+CI/CD pipeline using Travis-CI.
 
 
 # Table of Contents
@@ -15,9 +15,15 @@ unit tests and a CI/CD pipeline using Travis-CI.
     - [Usage](#usage)
         - [Vendor](#vendor)
         - [Running](#running)
+    - [Environment](#environment)
     - [Database Schema](#database-schema)
     - [API](#api)
     - [Tests](#tests)
+- [The Pipeline](the-pipeline)
+    - [Steps](#steps)
+        - [Test](#test)
+        - [Build](#build)
+        - [Publish](#publish)
 
 
 # The Application
@@ -77,10 +83,15 @@ $ ruby src/app.py
 To do it directly. In this case, the service port will be binded to `4567`.
 
 
+## Environment
+
+The following environment variables are used by the service:
+
+
 ## Database Schema
 
-A aplicação Ruby espera que o banco de dados Postgres possua um banco de dados
-nomeado `vagas` e uma tabela `users`. A tabela deverá seguir o seguinte schema:
+The service expects an already created database with a table called `users`.
+The table should have the following schema:
 
 ```sql
 id        SERIAL
@@ -89,16 +100,16 @@ surname   VARCHAR(255)
 age       INT
 ```
 
-Após se conectar ao banco de dados:
+After connecting to the database:
 
-- **Create the database**
+- __Create the database__
 
 ```sql
 CREATE DATABASE sinatra;
 USE sinatra;
 ```
 
-- **Create the table** `users`
+- __Create the table__ `users`
 
 ```sql
 CREATE TABLE users (id SERIAL, name VARCHAR(255), surname VARCHAR(255), age INT);
@@ -146,3 +157,38 @@ To execute the unit tests, use:
 ```sh
 $ make test
 ```
+
+
+# The Pipeline
+
+The pipeline tries to accomplish a flow where, given a new release (a tag), a
+new Docker image is generated and pushed to a private Docker registry (in AWS,
+with [ECR][ecr]. It's the "[CD][cd]" (continuous delivery) aspect of it. The
+"[CI][ci]" (continuous integration) is achieved by the unit tests.
+
+[ci]:  https://en.wikipedia.org/wiki/Continuous_integration
+[cd]:  https://en.wikipedia.org/wiki/Continuous_delivery
+[ecr]: https://aws.amazon.com/ecr
+
+
+## Steps
+
+### Test
+
+- __Dependency__  : N/A.
+- __Condition__   : `push`, `pull request` and `tag`
+- __Description__ : Installs the dependencies and execute the unit tests.
+
+
+### Build
+
+- __Dependency__  : [`test`](#test)
+- __Condition__   : `push` on `master` or `tag`
+- __Description__ : Builds a Docker image.
+
+
+### Publish
+
+- __Dependency__  : [`build`](#build)
+- __Condition__   : `tag`
+- __Description__ : Tags the builded image and pushes to the registry.
