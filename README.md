@@ -191,7 +191,7 @@ with [ECR][ecr]. It's the "[CD][cd]" (continuous delivery) aspect of it. The
 
 - __Dependency__  : [`test`](#test)
 - __Condition__   : `push` on `master` or `tag`
-- __Description__ : Builds a Docker image.
+- __Description__ : Builds the Docker image.
 
 
 ### Publish
