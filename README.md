@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/caiertl/travis-pipeline-sample.svg?branch=master)](https://travis-ci.org/caiertl/travis-pipeline-sample)
+[![Build Status](https://travis-ci.org/caian-org/travis-pipeline-sample.svg?branch=master)](https://travis-ci.org/caian-org/travis-pipeline-sample)
 
 # Sample: Ruby CI/CD pipeline with Travis-CI
 
