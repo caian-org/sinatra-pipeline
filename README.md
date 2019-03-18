@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/caian-org/travis-pipeline-sample.svg?branch=master)](https://travis-ci.org/caian-org/travis-pipeline-sample)
+[![Build Status](https://travis-ci.org/caian-org/sinatra-pipeline.svg?branch=master)](https://travis-ci.org/caian-org/sinatra-pipeline)
 
-# Sample: Ruby CI/CD pipeline with Travis-CI
+# Sinatra CI/CD pipeline with Travis
 
 This repository contains a simple Sinatra web application, the unit tests and a
 CI/CD pipeline using Travis-CI.

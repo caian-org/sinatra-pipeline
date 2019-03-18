@@ -5,7 +5,7 @@ install:
 		bundle install
 
 test:
-	ruby ./test/app_test.rb
+	ruby ./tests/app_test.rb
 
 run:
 	bundle exec rackup
